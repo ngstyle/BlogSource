@@ -5,7 +5,7 @@
   <subtitle><![CDATA[The best time to plant a tree is ten years ago and it is now]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://ngstyle.github.io//"/>
-  <updated>2015-06-13T07:21:55.621Z</updated>
+  <updated>2015-11-23T14:26:07.677Z</updated>
   <id>http://ngstyle.github.io//</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://ngstyle.github.io/2015/06/10/handler-detail/"/>
     <id>http://ngstyle.github.io/2015/06/10/handler-detail/</id>
     <published>2015-06-10T15:00:49.000Z</published>
-    <updated>2015-06-13T07:21:55.621Z</updated>
+    <updated>2015-11-23T14:26:07.677Z</updated>
     <content type="html"><![CDATA[<h3 id="Android为什么要设计只能通过Handler机制更新UI？">Android为什么要设计只能通过Handler机制更新UI？</h3><p>最根本的问题就是解决多线程并发问题，假设如果在一个Activity当中，有多个线程去更新UI,并且没有加锁机制，那将造成界面更新错乱。倘若如果对更新UI的操作都进行加锁处理又将导致性能的下降。</p>
 <p>处于对以上问题的考虑，android 给我们提供了一套UI更新的机制，我们只需遵循这样的机制就可以了，不用担心多线程的问题，更新UI的操作都是在主线程的消息队列中去轮询处理的。</p>
 <h3 id="Handler_原理是什么？">Handler 原理是什么？</h3><p>Android上一个应用的入口是ActivityThread，和普通的java类一样，入口是一个main方法。在其中会给我们创建一个Looper，创建Looper的过程中会创建一个MessageQueue对象。<br><a id="more"></a></p>
@@ -69,7 +69,7 @@
     <link href="http://ngstyle.github.io/2015/06/08/stickylayout/"/>
     <id>http://ngstyle.github.io/2015/06/08/stickylayout/</id>
     <published>2015-06-08T14:43:39.000Z</published>
-    <updated>2015-06-13T07:33:37.143Z</updated>
+    <updated>2015-11-23T14:26:07.684Z</updated>
     <content type="html"><![CDATA[<p><a href="https://github.com/ngstyle/StickyLayout" target="_blank" rel="external">源码下载地址</a></p>
 <blockquote>
 <p>基于 <a href="http://blog.csdn.net/lmj623565791/article/details/43649913" target="_blank" rel="external">Android 自定义控件 轻松实现360软件详情页</a></p>
@@ -95,7 +95,7 @@
     <link href="http://ngstyle.github.io/2015/06/05/just-now/"/>
     <id>http://ngstyle.github.io/2015/06/05/just-now/</id>
     <published>2015-06-05T07:34:26.000Z</published>
-    <updated>2015-06-13T07:34:33.423Z</updated>
+    <updated>2015-11-23T14:26:07.679Z</updated>
     <content type="html"><![CDATA[<p>“我每一次挥动胳膊，都可以感觉到肌肉的震颤，我很确信，大重量的卧推一定会让我的胸大肌发育，我知道拼了命的锻炼，真的可以给我带来回报。但是其他很多东西，你没有任何拼命的方向，甚至是拼了命也没用，说不清。我喜欢健身房，喜欢这个地方，就像家一样。”</p>
 <p>这个臂围40的哥们慢悠悠的讲这句话的时候，我心里还是咯噔了一下。</p>
 <p>故事的剧情简单明了，女朋友刚刚实习，被温柔多金的经理所吸引，抛下了相伴三年的哥们。</p>
