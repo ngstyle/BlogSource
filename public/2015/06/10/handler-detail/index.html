@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Scorp31io's Blog">
 <meta property="og:description" content="Android为什么要设计只能通过Handler机制更新UI？最根本的问题就是解决多线程并发问题，假设如果在一个Activity当中，有多个线程去更新UI,并且没有加锁机制，那将造成界面更新错乱。倘若如果对更新UI的操作都进行加锁处理又将导致性能的下降。
 处于对以上问题的考虑，android 给我们提供了一套UI更新的机制，我们只需遵循这样的机制就可以了，不用担心多线程的问题，更新UI的操作都是在">
-<meta property="og:updated_time" content="2015-11-23T14:26:07.677Z">
+<meta property="og:updated_time" content="2015-11-24T10:21:59.757Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Handler详解">
 <meta name="twitter:description" content="Android为什么要设计只能通过Handler机制更新UI？最根本的问题就是解决多线程并发问题，假设如果在一个Activity当中，有多个线程去更新UI,并且没有加锁机制，那将造成界面更新错乱。倘若如果对更新UI的操作都进行加锁处理又将导致性能的下降。
@@ -99,7 +99,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android为什么要设计只能通过Handler机制更新UI？"><span class="toc-number">1.</span> <span class="toc-text">Android为什么要设计只能通过Handler机制更新UI？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handler_原理是什么？"><span class="toc-number">2.</span> <span class="toc-text">Handler 原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指定线程处理消息_—_handleMessage"><span class="toc-number">3.</span> <span class="toc-text">指定线程处理消息 — handleMessage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android中更新UI的几种方法"><span class="toc-number">4.</span> <span class="toc-text">Android中更新UI的几种方法</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android为什么要设计只能通过Handler机制更新UI？"><span class="toc-number">1.</span> <span class="toc-text">Android为什么要设计只能通过Handler机制更新UI？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handler_原理是什么？"><span class="toc-number">2.</span> <span class="toc-text">Handler 原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指定线程处理消息_–_handleMessage"><span class="toc-number">3.</span> <span class="toc-text">指定线程处理消息 – handleMessage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android中更新UI的几种方法"><span class="toc-number">4.</span> <span class="toc-text">Android中更新UI的几种方法</span></a></li></ol>
 		
 		</div>
 		
@@ -116,7 +116,7 @@
 <li>MessageQueue(消息容器)：一个消息队列，可以添加消息。</li>
 <li>Handler内部和Looper进行关联，也就是说在Handler中可以找到Looper，找到了Looper也就找到了MessageQueue，在Handler中发送消息其实就是向MessageQueue队列中发送消息，Looper负责接收Handler发送的消息，并直接把消息回传给Handler自己。</li>
 </ol>
-<h3 id="指定线程处理消息_—_handleMessage">指定线程处理消息 — handleMessage</h3><p>在Handler构造方法中可指定某个线程Looper来作为本身消息的轮询处理。其中HandlerThread继承自Thread，维护了一个所在线程的一个Looper，handlerThread.getLooper()即可获得子线程的一个Looper。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread()&#123;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Handler handler = <span class="keyword">new</span> Handler(Looper.getMainLooper())&#123;</span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(android.os.Message msg)</span> </span>&#123;</span><br><span class="line">				System.out.println(<span class="string">"子线程创建的handler在: "</span> + Thread.currentThread() + <span class="string">" 接收消息"</span>);</span><br><span class="line">			&#125;;</span><br><span class="line">		&#125;;</span><br><span class="line">		</span><br><span class="line">		handler.sendEmptyMessage(<span class="number">0</span>);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;.start();</span><br><span class="line"></span><br><span class="line">HandlerThread handlerThread = <span class="keyword">new</span> HandlerThread(<span class="string">"handler thread"</span>);</span><br><span class="line">handlerThread.start();</span><br><span class="line"></span><br><span class="line">Handler handler = <span class="keyword">new</span> Handler(handlerThread.getLooper())&#123;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"主线程创建的handler在: "</span> + Thread.currentThread() + <span class="string">" 接收消息"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">handler.sendEmptyMessage(<span class="number">0</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="指定线程处理消息_–_handleMessage">指定线程处理消息 – handleMessage</h3><p>在Handler构造方法中可指定某个线程Looper来作为本身消息的轮询处理。其中HandlerThread继承自Thread，维护了一个所在线程的一个Looper，handlerThread.getLooper()即可获得子线程的一个Looper。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread()&#123;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Handler handler = <span class="keyword">new</span> Handler(Looper.getMainLooper())&#123;</span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(android.os.Message msg)</span> </span>&#123;</span><br><span class="line">				System.out.println(<span class="string">"子线程创建的handler在: "</span> + Thread.currentThread() + <span class="string">" 接收消息"</span>);</span><br><span class="line">			&#125;;</span><br><span class="line">		&#125;;</span><br><span class="line">		</span><br><span class="line">		handler.sendEmptyMessage(<span class="number">0</span>);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;.start();</span><br><span class="line"></span><br><span class="line">HandlerThread handlerThread = <span class="keyword">new</span> HandlerThread(<span class="string">"handler thread"</span>);</span><br><span class="line">handlerThread.start();</span><br><span class="line"></span><br><span class="line">Handler handler = <span class="keyword">new</span> Handler(handlerThread.getLooper())&#123;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"主线程创建的handler在: "</span> + Thread.currentThread() + <span class="string">" 接收消息"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">handler.sendEmptyMessage(<span class="number">0</span>);</span><br></pre></td></tr></table></figure></p>
 <h3 id="Android中更新UI的几种方法">Android中更新UI的几种方法</h3><ul>
 <li><p>runOnUIThread</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">runOnUiThread</span><span class="params">(Runnable action)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Thread.currentThread() != mUiThread) &#123;</span><br><span class="line">        mHandler.post(action);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        action.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -165,6 +165,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2015/11/24/git-ssh/" title="让你的Git使用上ssh协议授权">
+  <strong>上一篇：</strong><br/>
+  <span>
+  让你的Git使用上ssh协议授权</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2015/06/08/stickylayout/"  title="当乐软件详情页实现">
@@ -188,7 +196,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android为什么要设计只能通过Handler机制更新UI？"><span class="toc-number">1.</span> <span class="toc-text">Android为什么要设计只能通过Handler机制更新UI？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handler_原理是什么？"><span class="toc-number">2.</span> <span class="toc-text">Handler 原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指定线程处理消息_—_handleMessage"><span class="toc-number">3.</span> <span class="toc-text">指定线程处理消息 — handleMessage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android中更新UI的几种方法"><span class="toc-number">4.</span> <span class="toc-text">Android中更新UI的几种方法</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android为什么要设计只能通过Handler机制更新UI？"><span class="toc-number">1.</span> <span class="toc-text">Android为什么要设计只能通过Handler机制更新UI？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handler_原理是什么？"><span class="toc-number">2.</span> <span class="toc-text">Handler 原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指定线程处理消息_–_handleMessage"><span class="toc-number">3.</span> <span class="toc-text">指定线程处理消息 – handleMessage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Android中更新UI的几种方法"><span class="toc-number">4.</span> <span class="toc-text">Android中更新UI的几种方法</span></a></li></ol>
  
   </div>
 
@@ -206,6 +214,10 @@
 		  
 		
 		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
 		  
 		
@@ -219,7 +231,7 @@
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/自定义控件/" style="font-size: 10px;">自定义控件</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+       <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/自定义控件/" style="font-size: 10px;">自定义控件</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 

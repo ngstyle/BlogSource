@@ -81,6 +81,80 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/24/git-ssh/" title="让你的Git使用上ssh协议授权" itemprop="url">让你的Git使用上ssh协议授权</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Scorp31io" target="_blank" itemprop="author">Scorp31io</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-24T10:24:45.000Z" itemprop="datePublished"> 发表于 2015-11-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><a href="https://zh.wikipedia.org/zh/Secure_Shell" target="_blank" rel="external">维基百科：ssh</a></p>
+<h3 id="基本的ssh配置">基本的ssh配置</h3><h4 id="1-_Check_for_SSH_keys">1. Check for SSH keys</h4><p>First, we need to check for existing SSH keys on your computer. Open Git Bash and enter:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al ~/.ssh</span><br><span class="line"># Lists the files in your .ssh directory, if they exist</span><br></pre></td></tr></table></figure></p>
+<p>If you see an existing public and private key pair listed (for example id_rsa.pub and id_rsa) that you would like to use to connect to GitHub, you can skip Step 2 and go straight to Step 3.<br>（如果存在密钥对，密钥对的账号如果不是你所需配置网站的账号，还是需要重新生成）</p>
+<h4 id="2-_Generate_a_new_SSH_key">2. Generate a new SSH key</h4><p>2.1 With Git Bash still open, copy and paste the text below. Make sure you substitute in your GitHub email address.<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"</span><br><span class="line"># Creates a new ssh key, using the provided email as a label</span><br><span class="line"># Generating public/private rsa key pair.</span><br></pre></td></tr></table></figure></p>
+<p>or you can generate a key for the specified name use the commond below.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span> -f ~/.ssh/github</span><br></pre></td></tr></table></figure></p>
+<p>命名为github（这里叫什么随意，不要重名即可），然后会生成github和github.pub这两个文件</p>
+<p>2.2 We strongly suggest keeping the default settings as they are, so when you’re prompted to “Enter a file in which to save the key”, just press Enter to continue.</p>
+<p>2.3 You’ll be asked to enter a passphrase.(为了方便，直接enter略过)</p>
+<h4 id="3-_Add_your_key_to_the_ssh-agent">3.  Add your key to the ssh-agent</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-add ~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+<p>可能会报 Could not open a connection to your authentication agent<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-agent bash</span><br><span class="line">$ eval `ssh-agent`</span><br></pre></td></tr></table></figure></p>
+<h4 id="4:_Add_your_SSH_key_to_your_account">4: Add your SSH key to your account</h4><p>打开公钥文件（id_rsa.pub），并把内容复制至代码托管平台上.</p>
+<h4 id="4:_Test_the_connection">4: Test the connection</h4><p>各平台：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git<span class="annotation">@github</span>.com</span><br><span class="line">$ ssh -T git<span class="annotation">@git</span>.coding.net</span><br><span class="line">$ ssh -T git<span class="annotation">@gitcafe</span>.com</span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/git/">git</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a><a href="/tags/ssh/">ssh</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/11/24/git-ssh/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/24/git-ssh/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/06/10/handler-detail/" title="Android Handler详解" itemprop="url">Android Handler详解</a>
   </h1>
   <p class="article-author">By
@@ -293,6 +367,10 @@
 		  
 		
 		  
+			<li><a href="/categories/git/" title="git">git<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
 		  
 		
@@ -306,7 +384,7 @@
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/自定义控件/" style="font-size: 10px;">自定义控件</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+       <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/handler/" style="font-size: 10px;">handler</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/自定义控件/" style="font-size: 10px;">自定义控件</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     </div>
   </div>
 
