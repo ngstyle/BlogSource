@@ -46,7 +46,7 @@ $ eval `ssh-agent`
 #### 4: Add your SSH key to your account
 打开公钥文件（id_rsa.pub），并把内容复制至代码托管平台上.
 
-#### 4: Test the connection
+#### 5: Test the connection
 各平台：
 ```java
 $ ssh -T git@github.com
